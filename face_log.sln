@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "face_log", "face_log\face_log.vcproj", "{5A2FE6EA-11BB-4156-B3ED-DAA4B5DF7864}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "quality_assessment", "quality_assessment\quality_assessment.vcproj", "{DB416F2B-2243-41B9-894C-2F73C1420D60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5A2FE6EA-11BB-4156-B3ED-DAA4B5DF7864}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5A2FE6EA-11BB-4156-B3ED-DAA4B5DF7864}.Debug|Win32.Build.0 = Debug|Win32
+		{5A2FE6EA-11BB-4156-B3ED-DAA4B5DF7864}.Release|Win32.ActiveCfg = Release|Win32
+		{5A2FE6EA-11BB-4156-B3ED-DAA4B5DF7864}.Release|Win32.Build.0 = Release|Win32
+		{DB416F2B-2243-41B9-894C-2F73C1420D60}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DB416F2B-2243-41B9-894C-2F73C1420D60}.Debug|Win32.Build.0 = Debug|Win32
+		{DB416F2B-2243-41B9-894C-2F73C1420D60}.Release|Win32.ActiveCfg = Release|Win32
+		{DB416F2B-2243-41B9-894C-2F73C1420D60}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
