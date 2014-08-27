@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "quality.h"
 
+Mat ComputeGabor(Mat image);
 double BrightnessDarkSpot(Mat image, double alpha);
 double BrightnessY(Mat image);
 double BrightnessEqualize(Mat image);
@@ -9,13 +10,8 @@ double PoseEyesAngle(Vec4f eyePoints);
 double PoseEyesLength(Vec4f eyePoints);
 double SymmetryHist(Mat image);
 double SymmetryGabor(Mat image);
-Mat ComputeGabor(Mat image);
 double SymmetryLbph(Mat image);	//LBPH衡量对称
 
-
-LightQuality ComputerLightQuality(Mat image);
-PoseQuality ComputerPoseQuality(Vec4f eyePoints);
-SymmetryQuality ComputerSymmetryQuality(Mat image);
 
 //LBPH衡量对称性
 double SymmetryLbph(Mat image)

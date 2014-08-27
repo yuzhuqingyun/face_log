@@ -74,6 +74,8 @@ typedef struct SymmetryQuality
 	double lbph;
 } SymmetryQuality;
 
-
+LightQuality ComputerLightQuality(Mat image);
+PoseQuality ComputerPoseQuality(Vec4f eyePoints);
+SymmetryQuality ComputerSymmetryQuality(Mat image);
 
 #endif
