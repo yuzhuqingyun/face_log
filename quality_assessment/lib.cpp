@@ -26,12 +26,12 @@ double GetPointDistance(Point2f p1,Point2f p2)
 //************************************
 string GetFilenameFromPath(string path)
 {
-	size_t npos = path.find_last_of('/');
-	return path.substr(npos+1, path.size()-npos-1-4-4);
+	size_t npos = path.find_last_of('\\');
+	return path.substr(npos+1, 50/*path.size()-npos-1-4-4*/);
 }
 //************************************
 // 函数名称: alignFace
-// 函数说明:  根据两眼坐标，人脸归一化
+// 函数说明:  根据两眼坐标，人脸归一化,默认大小140*120
 // 作    者: Juliwei
 // 完成日期: 2014/08/06
 // 返 回 值: cv::Mat

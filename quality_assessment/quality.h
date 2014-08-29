@@ -17,38 +17,6 @@
 using namespace std;
 using namespace cv;
 
-//存储人脸信息
-typedef struct Face
-{
-	string filename;	//文件名
-	string sign;		//实际质量标记
-	int id;				//人脸ID
-	Vec4f eyePoints;	//两眼坐标点
-	Mat face;		//归一化人脸
-	double value;	//指标大小
-
-	//重载操作符< >为sort做准备	eg. sort(vpw.begin(), vpw.end(),greater<ValuePerWeight>());//降序	sort(vpw.begin(), vpw.end(),less<ValuePerWeight>());//升序
-	bool operator <(const Face &other)const   //升序排序
-	{
-		return value>other.value;
-	}
-	//或者
-	bool operator >(const Face &other)const   //降序排序
-	{
-		return value>other.value;
-	}
-} Face;
-
-//存储所有的人脸质量指标评估结果
-typedef struct Quality 
-{
-	double light;
-	double symmetry;
-	double sharpness;
-	double pose;
-	double expression;
-} Quality;
-
 //存储所有的光照质量
 typedef struct LightQuality 
 {
@@ -74,8 +42,41 @@ typedef struct SymmetryQuality
 	double lbph;
 } SymmetryQuality;
 
+//存储所有的人脸质量指标评估结果
+typedef struct Quality 
+{
+	LightQuality lightQuality;
+	PoseQuality poseQuality;
+	SymmetryQuality symmetryQuality;
+} Quality;
+
+//存储人脸信息
+typedef struct Face
+{
+	string filename;	//文件名
+	string sign;		//实际质量标记
+	int id;				//人脸ID
+	Vec4f eyePoints;	//两眼坐标点
+	Mat face;		//归一化人脸
+	double value;	//指标大小
+	Quality quality;	//图片质量
+
+	//重载操作符< >为sort做准备	eg. sort(vpw.begin(), vpw.end(),greater<ValuePerWeight>());//降序	sort(vpw.begin(), vpw.end(),less<ValuePerWeight>());//升序
+	bool operator <(const Face &other)const   //升序排序
+	{
+		return value>other.value;
+	}
+	//或者
+	bool operator >(const Face &other)const   //降序排序
+	{
+		return value>other.value;
+	}
+} Face;
+
 LightQuality ComputerLightQuality(Mat image);
 PoseQuality ComputerPoseQuality(Vec4f eyePoints);
 SymmetryQuality ComputerSymmetryQuality(Mat image);
+Quality ComputerQuality(const Face& faceInfo);
+int QualityAsRowMatrix(const Quality& quality, Mat& matOfQuality);
 
 #endif

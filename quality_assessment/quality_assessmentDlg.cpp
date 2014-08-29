@@ -5,6 +5,12 @@
 #include "stdafx.h"
 #include "quality_assessment.h"
 #include "quality_assessmentDlg.h"
+#include "opencv2\core\core.hpp"
+#include "opencv2\highgui\highgui.hpp"
+#include "opencv2\opencv.hpp"
+#include "train.h"
+
+using namespace cv;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -63,6 +69,7 @@ BEGIN_MESSAGE_MAP(Cquality_assessmentDlg, CDialog)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	//}}AFX_MSG_MAP
+	ON_BN_CLICKED(IDC_BUTTON_TRAIN, &Cquality_assessmentDlg::OnBnClickedButtonTrain)
 END_MESSAGE_MAP()
 
 
@@ -151,3 +158,10 @@ HCURSOR Cquality_assessmentDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+void Cquality_assessmentDlg::OnBnClickedButtonTrain()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	string txtDirectory = "G:\\Picture\\CAS-PEAL-R1\\quality_assessment\\";
+	TrainQualityAssessment(txtDirectory);
+}

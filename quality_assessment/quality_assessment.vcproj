@@ -307,11 +307,35 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Process"
+			>
+			<File
+				RelativePath=".\matching.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\matching.h"
+				>
+			</File>
+			<File
+				RelativePath=".\train.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\train.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>
 		</File>
 	</Files>
 	<Globals>
+		<Global
+			Name="RESOURCE_FILE"
+			Value="quality_assessment.rc"
+		/>
 	</Globals>
 </VisualStudioProject>

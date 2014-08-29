@@ -121,7 +121,7 @@ double BrightnessMiddlePixel(Mat image)
 	double lowRate = 0.1, upRate = 0.1;	//上下限的比例阈值
 	int low=0, up=255;	//上下限
 	int pixelNum = image.rows*image.cols;
-	int minLoc = 0, maxLoc = 255;
+	int minLoc, maxLoc;
 
 	for (int i = 0; i < 255; i++)	//求最小灰度
 	{
