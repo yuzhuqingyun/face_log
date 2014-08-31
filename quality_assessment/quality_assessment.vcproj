@@ -22,7 +22,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			UseOfMFC="2"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -304,6 +304,14 @@
 			</File>
 			<File
 				RelativePath=".\quality.h"
+				>
+			</File>
+			<File
+				RelativePath=".\quality_lib.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\quality_lib.h"
 				>
 			</File>
 		</Filter>

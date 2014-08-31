@@ -17,6 +17,7 @@
 using namespace std;
 using namespace cv;
 
+
 //存储所有的光照质量
 typedef struct LightQuality 
 {
@@ -71,12 +72,32 @@ typedef struct Face
 	{
 		return value>other.value;
 	}
+
 } Face;
+
+//bool MaxFaceValue(const Face &face1, const Face &face2)
+//{
+//	if (face1.value > face2.value)
+//	{
+//		return true;
+//	}
+//	else
+//		return false;
+//}
+//bool MinFaceValue(const Face &face1, const Face &face2)
+//{
+//	if (face1.value < face2.value)
+//	{
+//		return true;
+//	}
+//	else
+//		return false;
+//}
 
 LightQuality ComputerLightQuality(Mat image);
 PoseQuality ComputerPoseQuality(Vec4f eyePoints);
 SymmetryQuality ComputerSymmetryQuality(Mat image);
 Quality ComputerQuality(const Face& faceInfo);
-int QualityAsRowMatrix(const Quality& quality, Mat& matOfQuality);
+int QualityAsRowMatrix(const Quality& quality, Mat& matOfQuality);	//返回0成功
 
 #endif

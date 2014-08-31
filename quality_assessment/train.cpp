@@ -1,13 +1,5 @@
 #include "stdafx.h"
 #include "train.h"
-#include "quality.h"
-#include "lbph.h"
-
-
-void ReadTxt(const string filename, vector<string>& vpaths,vector<Vec4f>& vpoints, char separator);	//读取读入中科院说明文本内容txt
-void ReadFilename(const string filename, int& id, string& sign);	//从文件名中提取信息id和光照的标号
-void GetFaceFromTxt(const string txtname, vector<Face>& vfaces);	//从txt获取人脸信息
-int GetFaceFromFilename(const string filePath, const Vec4f point, Face& faces);
 
 //************************************
 // 函数名称: ReadTxt
@@ -149,6 +141,7 @@ void GetFaceFromTxt(const string txtname, vector<Face>& vfaces)
 
 int TrainQualityAssessment(const string strDirectory)
 {
+	int maxFace = 100;
 	string strNormalTxt = strDirectory + "normal_image.txt";	//标准图路径
 	string strLogTxt = strDirectory + "image_log.txt";	//图片长廊路径
 	vector<string> vnormalPath, vlogPath;
@@ -158,13 +151,13 @@ int TrainQualityAssessment(const string strDirectory)
 	ReadTxt(strNormalTxt, vnormalPath, vnormalPoint, ' ');	
 	ReadTxt(strLogTxt, vlogPath, vlogPoint, ' ');
 	//从图片路径和坐标获得人脸信息Face
-	for (size_t i = 0; i<vnormalPath.size(); i++)
+	for (size_t i = 0; i<maxFace/*vnormalPath.size()*/; i++)
 	{
 		Face normalFace;
 		GetFaceFromFilename(vnormalPath[i], vnormalPoint[i], normalFace);
 		vnormalFaces.push_back(normalFace);
 	}
-	for (size_t j = 0; j<vnormalPath.size(); j++)
+	for (size_t j = 0; j<maxFace/*vlogPath.size()*/; j++)
 	{
 		Face logFace;
 		GetFaceFromFilename(vlogPath[j], vlogPoint[j], logFace);
@@ -195,7 +188,8 @@ int TrainQualityAssessment(const string strDirectory)
 		string error_message = "无法建立标准图和图像序列的映射";
 		CV_Error(CV_StsBadArg, error_message);
 	}
-
+	
+	int totalImage = 0;	//训练图片总数
 	//计算每幅图的质量和匹配度
 	for (size_t i=0; i<vlastLogFace.size(); i++)
 	{
@@ -207,8 +201,69 @@ int TrainQualityAssessment(const string strDirectory)
 			Mat dstLbph = ComputerLBPH(vlastLogFace[i][j].face);
 			vlastLogFace[i][j].value = CompareLBPH(stdLbph, dstLbph);
 
+			////将各个评估质量转化为行向量
+			//Mat matOfQuality;
+			//if (QualityAsRowMatrix(vlastLogFace[i][j].quality, matOfQuality))
+			//{
+			//	return -1;
+			//}
+			totalImage++;
 		}
 	}
+
+	//得到训练矩阵
+	int num = 0;
+	Mat trainData = Mat::zeros(totalImage, 3, CV_64FC1);
+	Mat labelsData = Mat::zeros(totalImage, 1, CV_64FC1);
+	for (size_t i=0; i<vlastLogFace.size(); i++)
+	{
+		for (size_t j=0; j<vlastLogFace[i].size(); j++)
+		{
+			//将各个评估质量转化为行向量
+			Mat matOfQuality = trainData.row(num);
+			if (QualityAsRowMatrix(vlastLogFace[i][j].quality, matOfQuality))
+			{
+				return -1;
+			}
+			labelsData.at<double>(num) = vlastLogFace[i][j].value;	//匹配度
+			num++;
+			
+		}
+	}
+	FileStorage fs("train.xml", FileStorage::WRITE);
+	fs<<"trainData"<<trainData;
+	fs<<"labelsData"<<labelsData;
+	fs.release();
+
+	//SVM回归
+	CvSVMParams param;  
+	param.svm_type = CvSVM::EPS_SVR;  
+	param.kernel_type = CvSVM::RBF;  
+	param.C = 5;  
+	param.p = 1e-3;  
+	param.gamma = 0.1;  
+
+	//训练
+	CvSVM regresser;  
+	trainData.convertTo(trainData, CV_32F);	//CV_64F报错
+	labelsData.convertTo(labelsData, CV_32F);
+	regresser.train(trainData, labelsData, Mat(), Mat(), param);  
+	regresser.save("quality_model.txt");
+
+	//// predict the responses of the samples and show them  
+	//for (float i = 0; i < 10; i+=0.23f)  
+	//{  
+	//	Mat sample(1,1, CV_32FC1);  
+	//	sample.at<float>(0, 0) = static_cast<float>(i);  
+
+	//	float response = regresser.predict(sample);  
+	//	//cout<<response<<endl;  
+	//	float x = (sample.at<float>(0, 0) - X_shift) * X_ratio;  
+	//	float y = static_cast<float>(height) - (response - Y_shift) * Y_ratio;  
+	//	circle(canvas, Point2f(x, y), 3, Scalar(0,255,0), -1);  
+	//}  
+
+	//imshow("predict", canvas);  
 
 	return 1;
 	
