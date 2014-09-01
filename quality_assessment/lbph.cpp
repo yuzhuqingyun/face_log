@@ -155,6 +155,6 @@ Mat ComputerLBPH(Mat src)
 
 double CompareLBPH(Mat image1, Mat image2)
 {
-	return compareHist(image1, image2, CV_COMP_CHISQR);
+	return compareHist(image1, image2, CV_COMP_CHISQR);// CV_COMP_CHISQR CV_COMP_BHATTACHARYYA
 
 }

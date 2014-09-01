@@ -6,6 +6,7 @@
 #include "quality_assessment.h"
 #include "quality_assessmentDlg.h"
 #include <fstream>
+#include "quality_lib.h"
 
 using namespace std;;
 
@@ -214,16 +215,13 @@ void Cquality_assessmentDlg::OnBnClickedButtonTrain()
 		}
 
 		int totalImage = 0;	//训练图片总数
-		//计算每幅图的质量和匹配度
+		//计算每幅图的质量
 		for (size_t i=0; i<vlastLogFace.size(); i++)
 		{
 			for (size_t j=0; j<vlastLogFace[i].size(); j++)
 			{
 
 				vlastLogFace[i][j].quality = ComputerQuality(vlastLogFace[i][j]);	//质量
-				Mat stdLbph = ComputerLBPH(vlastNormalFace[i].face);
-				Mat dstLbph = ComputerLBPH(vlastLogFace[i][j].face);
-				vlastLogFace[i][j].value = CompareLBPH(stdLbph, dstLbph);
 
 				////将各个评估质量转化为行向量
 				//Mat matOfQuality;
@@ -232,6 +230,26 @@ void Cquality_assessmentDlg::OnBnClickedButtonTrain()
 				//	return -1;
 				//}
 				totalImage++;
+			}
+		}
+
+		//归一化各个质量指标
+		for (size_t i=0; i<vlastLogFace.size(); i++)
+		{
+			NormalizeQuality(vlastLogFace[i]);
+		}
+		//计算每幅图的匹配度
+		for (size_t i=0; i<vlastLogFace.size(); i++)
+		{
+			for (size_t j=0; j<vlastLogFace[i].size(); j++)
+			{
+				Mat stdLbph = ComputerLBPH(vlastNormalFace[i].face);
+				Mat dstLbph = ComputerLBPH(vlastLogFace[i][j].face);
+				//imshow("normal", vlastNormalFace[i].face);
+				//imshow("compare", vlastLogFace[i][j].face);
+				//waitKey(0)
+
+				vlastLogFace[i][j].value = CompareLBPH(stdLbph, dstLbph);
 			}
 		}
 

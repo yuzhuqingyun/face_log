@@ -4,8 +4,7 @@
 
 #include "quality.h"
 
-
-int Normal(vector<Face>& vfaces, int flag);	//对Face的Value值归一化
+int NormalizeQuality(vector<Face>& vfaces);
 
 
 #endif

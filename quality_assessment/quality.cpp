@@ -330,8 +330,8 @@ Quality ComputerQuality(const Face& faceInfo)
 {
 	Quality quality;
 	quality.lightQuality = ComputerLightQuality(faceInfo.face);
-	quality.poseQuality = ComputerPoseQuality(faceInfo.eyePoints);
-	quality.symmetryQuality = ComputerSymmetryQuality(faceInfo.face);
+	//quality.poseQuality = ComputerPoseQuality(faceInfo.eyePoints);
+	//quality.symmetryQuality = ComputerSymmetryQuality(faceInfo.face);
 	return quality;
 }
 
