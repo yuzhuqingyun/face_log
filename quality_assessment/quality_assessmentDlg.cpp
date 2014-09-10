@@ -7,6 +7,7 @@
 #include "quality_assessmentDlg.h"
 #include <fstream>
 #include "quality_lib.h"
+#include "VisualizationTool.h"
 
 using namespace std;;
 
@@ -69,6 +70,7 @@ BEGIN_MESSAGE_MAP(Cquality_assessmentDlg, CDialog)
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_BUTTON_TRAIN, &Cquality_assessmentDlg::OnBnClickedButtonTrain)
 	ON_BN_CLICKED(IDC_BUTTON_PREDICT, &Cquality_assessmentDlg::OnBnClickedButtonPredict)
+	ON_BN_CLICKED(IDC_BUTTON_SHOW, &Cquality_assessmentDlg::OnBnClickedButtonShow)
 END_MESSAGE_MAP()
 
 
@@ -385,4 +387,17 @@ void Cquality_assessmentDlg::OnBnClickedButtonPredict()
 	//	}
 	//}
 	//waitKey(0);
+}
+
+void Cquality_assessmentDlg::OnBnClickedButtonShow()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	Mat image = imread("G:\\Picture\\Lena.jpg", 1);
+	Mat gray;
+	cvtColor(image , gray, CV_BGR2GRAY);
+	VisualizationTool::showImageHistogram("histogram", image);
+	VisualizationTool::showImageColorDistribution("ColorDistribution", image);
+	VisualizationTool::imageSC("imageSc", gray);
+	//VisualizationTool::ShowArrayHistogram("arrayHistogram", image);
+	waitKey(0);
 }

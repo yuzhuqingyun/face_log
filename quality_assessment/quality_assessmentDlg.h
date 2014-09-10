@@ -45,4 +45,5 @@ public:
 	CvSVM regresser; 
 	int maxFace;	//允许读取的最多图片
 	int ntrainPerson;	//用于训练人数
+	afx_msg void OnBnClickedButtonShow();
 };

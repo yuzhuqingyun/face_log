@@ -294,6 +294,14 @@
 				RelativePath=".\lib.h"
 				>
 			</File>
+			<File
+				RelativePath=".\VisualizationTool.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\VisualizationTool.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Quality"
