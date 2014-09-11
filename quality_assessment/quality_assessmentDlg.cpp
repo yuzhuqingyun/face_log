@@ -257,7 +257,7 @@ void Cquality_assessmentDlg::OnBnClickedButtonTrain()
 
 		//µ√µΩ—µ¡∑æÿ’Û
 		int num = 0;
-		int nnumOfQuality = 6;
+		int nnumOfQuality = 8;
 		Mat trainData = Mat::zeros(totalImage, nnumOfQuality, CV_64FC1);
 		Mat labelsData = Mat::zeros(totalImage, 1, CV_64FC1);
 		for (size_t i=0; i<vlastLogFace.size(); i++)

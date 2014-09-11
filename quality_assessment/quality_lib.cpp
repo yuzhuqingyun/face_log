@@ -149,6 +149,34 @@ int NormalizeQuality(vector<Face>& vfaces)
 		vfaces[i].value = vfaces[i].quality.symmetryQuality.gabor;
 		vfaces[i].quality.symmetryQuality.gabor = temp;
 	}
+	//归一化pose_eye_length
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.poseQuality.eyes_length;
+		vfaces[i].quality.poseQuality.eyes_length = temp;
+	}
+	NormalValue(vfaces, 0);
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.poseQuality.eyes_length;
+		vfaces[i].quality.poseQuality.eyes_length = temp;
+	}
+	//归一化pose_eye_angle
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.poseQuality.eyes_angle;
+		vfaces[i].quality.poseQuality.eyes_angle = temp;
+	}
+	NormalValue(vfaces, 0);
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.poseQuality.eyes_angle;
+		vfaces[i].quality.poseQuality.eyes_angle = temp;
+	}
 	return 0;
 
 }
