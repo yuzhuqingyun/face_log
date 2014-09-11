@@ -257,7 +257,8 @@ void Cquality_assessmentDlg::OnBnClickedButtonTrain()
 
 		//得到训练矩阵
 		int num = 0;
-		Mat trainData = Mat::zeros(totalImage, 3, CV_64FC1);
+		int nnumOfQuality = 6;
+		Mat trainData = Mat::zeros(totalImage, nnumOfQuality, CV_64FC1);
 		Mat labelsData = Mat::zeros(totalImage, 1, CV_64FC1);
 		for (size_t i=0; i<vlastLogFace.size(); i++)
 		{
@@ -358,7 +359,7 @@ void Cquality_assessmentDlg::OnBnClickedButtonPredict()
 			Mat image = imread(vlastLogFace[i][j].filename, 1);
 			resize(image, image, Size(120, 160));
 			char words[50];
-			sprintf(words, "%s%.3f", "nornal: ", vlastLogFace[i][j].value);
+			sprintf(words, "%s%.3f", "normal: ", vlastLogFace[i][j].value);
 			putText(image, words, Point( 4,10),CV_FONT_HERSHEY_COMPLEX, 0.4, Scalar(255, 0, 0));
 			double testLabel = regresser.predict(matOfQuality);	//预测结果
 			char words2[50];
@@ -369,24 +370,54 @@ void Cquality_assessmentDlg::OnBnClickedButtonPredict()
 			image.copyTo(showImage(rect));
 			//vlastLogFace[i][j].value = testLabel;
 		}
-		imshow("result", showImage);
+		imshow("result_normal", showImage);
 		waitKey(0);
 	}
 	////按预测分数排序
-	//for (size_t i=ntrainPerson; i<vlastNormalFace.size()-ntrainPerson; i++)
-	//{
-	//	sort(vlastLogFace[i].begin(), vlastLogFace[i].end(), greater<Face>());
-	//}
-	//for (size_t i=ntrainPerson; i<vlastNormalFace.size(); i++)
-	//{
-	//	for (size_t j=0; j<vlastLogFace[i].size(); j++)
-	//	{
-	//		Mat image = imread(vlastLogFace[i][j].filename, 1);
-	//		imshow("predict", showImage);
-	//		waitKey(0);
-	//	}
-	//}
-	//waitKey(0);
+
+	for (size_t i=ntrainPerson; i<vlastNormalFace.size(); i++)
+	{
+		for (size_t j=0; j<vlastLogFace[i].size(); j++)
+		{
+			//将各个评估质量转化为行向量
+			Mat matOfQuality1 ;
+			if (QualityAsRowMatrix(vlastLogFace[i][j].quality, matOfQuality1))
+			{
+				return ;
+			}
+			matOfQuality1.convertTo(matOfQuality1, CV_32F);
+			double testLabel = regresser.predict(matOfQuality1);	//预测结果
+			vlastLogFace[i][j].value = testLabel;
+		}
+	}
+	for (size_t i=ntrainPerson; i<vlastNormalFace.size(); i++)
+	{
+		sort(vlastLogFace[i].begin(), vlastLogFace[i].end(), greater<Face>());
+	}
+
+	for (size_t i=ntrainPerson; i<vlastNormalFace.size(); i++)
+	{
+		Mat showImage(160*3, 120*10, CV_8UC3);	//显示大图
+		for (size_t j=0; j<vlastLogFace[i].size(); j++)
+		{
+			//为图片打上标记
+			Mat image = imread(vlastLogFace[i][j].filename, 1);
+			resize(image, image, Size(120, 160));
+			char words[50];
+			sprintf(words, "%s%.3f", "predict: ", vlastLogFace[i][j].value);
+			putText(image, words, Point( 4,10),CV_FONT_HERSHEY_COMPLEX, 0.4, Scalar(255, 0, 0));
+			//double testLabel = regresser.predict(matOfQuality);	//预测结果
+			//char words2[50];
+			//sprintf(words2, "%s%.3f", "predict: ", testLabel);
+			//putText(image, words2, Point( 4,20),CV_FONT_HERSHEY_COMPLEX, 0.4, Scalar(255, 0, 0));
+			Rect rect = Rect((int)(120*(j%10)), (int)(160*(j/10)), 120, 160);
+			//showImage(rect) = image.clone();
+			image.copyTo(showImage(rect));
+			//vlastLogFace[i][j].value = testLabel;
+		}
+		imshow("result_predict", showImage);
+		waitKey(0);
+	}
 }
 
 void Cquality_assessmentDlg::OnBnClickedButtonShow()

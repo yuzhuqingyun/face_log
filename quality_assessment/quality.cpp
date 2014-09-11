@@ -331,7 +331,7 @@ Quality ComputerQuality(const Face& faceInfo)
 	Quality quality;
 	quality.lightQuality = ComputerLightQuality(faceInfo.face);
 	//quality.poseQuality = ComputerPoseQuality(faceInfo.eyePoints);
-	//quality.symmetryQuality = ComputerSymmetryQuality(faceInfo.face);
+	quality.symmetryQuality = ComputerSymmetryQuality(faceInfo.face);
 	return quality;
 }
 
@@ -346,7 +346,7 @@ Quality ComputerQuality(const Face& faceInfo)
 //************************************
 int QualityAsRowMatrix(const Quality& quality, Mat& matOfQuality)
 {
-	int num = 3;
+	int num = 6;
 	matOfQuality.create(1, num, CV_64F);
 	if (matOfQuality.empty())
 	{
@@ -355,9 +355,9 @@ int QualityAsRowMatrix(const Quality& quality, Mat& matOfQuality)
 	matOfQuality.at<double>(0, 0) = quality.lightQuality.dark_spot;
 	matOfQuality.at<double>(0, 1) = quality.lightQuality.equalization;
 	matOfQuality.at<double>(0, 2) = quality.lightQuality.middle_pixel;
-	//matOfQuality.at<double>(0, 3) = quality.symmetryQuality.hist;
-	//matOfQuality.at<double>(0, 4) = quality.symmetryQuality.lbph;
-	//matOfQuality.at<double>(0, 5) = quality.symmetryQuality.gabor;
+	matOfQuality.at<double>(0, 3) = quality.symmetryQuality.hist;
+	matOfQuality.at<double>(0, 4) = quality.symmetryQuality.lbph;
+	matOfQuality.at<double>(0, 5) = quality.symmetryQuality.gabor;
 	return 0;
 
 }

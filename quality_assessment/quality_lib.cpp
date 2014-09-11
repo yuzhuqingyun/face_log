@@ -104,6 +104,51 @@ int NormalizeQuality(vector<Face>& vfaces)
 		vfaces[i].value = vfaces[i].quality.lightQuality.middle_pixel;
 		vfaces[i].quality.lightQuality.middle_pixel = temp;
 	}
+
+	//归一化symmetryhist
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.symmetryQuality.hist;
+		vfaces[i].quality.symmetryQuality.hist = temp;
+	}
+	NormalValue(vfaces, 0);
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.symmetryQuality.hist;
+		vfaces[i].quality.symmetryQuality.hist = temp;
+	}
+
+	//归一化symmetrylbph
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.symmetryQuality.lbph;
+		vfaces[i].quality.symmetryQuality.lbph = temp;
+	}
+	NormalValue(vfaces, 0);
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.symmetryQuality.lbph;
+		vfaces[i].quality.symmetryQuality.lbph = temp;
+	}
+
+	//归一化symmetrygabor
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.symmetryQuality.gabor;
+		vfaces[i].quality.symmetryQuality.gabor = temp;
+	}
+	NormalValue(vfaces, 0);
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.symmetryQuality.gabor;
+		vfaces[i].quality.symmetryQuality.gabor = temp;
+	}
 	return 0;
 
 }

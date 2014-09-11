@@ -75,24 +75,6 @@ typedef struct Face
 
 } Face;
 
-//bool MaxFaceValue(const Face &face1, const Face &face2)
-//{
-//	if (face1.value > face2.value)
-//	{
-//		return true;
-//	}
-//	else
-//		return false;
-//}
-//bool MinFaceValue(const Face &face1, const Face &face2)
-//{
-//	if (face1.value < face2.value)
-//	{
-//		return true;
-//	}
-//	else
-//		return false;
-//}
 
 LightQuality ComputerLightQuality(Mat image);
 PoseQuality ComputerPoseQuality(Vec4f eyePoints);
