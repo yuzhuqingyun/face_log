@@ -43,12 +43,21 @@ typedef struct SymmetryQuality
 	double lbph;
 } SymmetryQuality;
 
+//存储所有的清晰度指标
+typedef struct SharpnessQuality 
+{
+	double diff_sobel;
+	double diff_dct;
+	double diff_medianBlur;
+};
+
 //存储所有的人脸质量指标评估结果
 typedef struct Quality 
 {
 	LightQuality lightQuality;
 	PoseQuality poseQuality;
 	SymmetryQuality symmetryQuality;
+	SharpnessQuality sharpnessQuality;
 } Quality;
 
 //存储人脸信息
@@ -79,6 +88,8 @@ typedef struct Face
 LightQuality ComputerLightQuality(Mat image);
 PoseQuality ComputerPoseQuality(Vec4f eyePoints);
 SymmetryQuality ComputerSymmetryQuality(Mat image);
+SharpnessQuality ComputerSharpnessQuality(Mat image);
+
 Quality ComputerQuality(const Face& faceInfo);
 int QualityAsRowMatrix(const Quality& quality, Mat& matOfQuality);	//返回0成功
 

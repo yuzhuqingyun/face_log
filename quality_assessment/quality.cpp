@@ -242,6 +242,90 @@ double BrightnessDarkSpot(Mat image, double alpha)
 		}
 		return num / (double)(image.rows * image.cols);
 }
+
+//
+//************************************
+// 函数名称: SharpnessSobel
+// 函数说明:  通过sobel梯度评估清晰度
+// 作    者: Juliwei
+// 完成日期: 2014/09/11
+// 返 回 值: double
+// 参    数:Mat image
+// 参    数:int numOfDirection梯度方向的数目，默认为2，即0，90度方向
+//************************************
+double SharpnessSobel(Mat image, int numOfDirection)
+{
+	double sum = 0.0;
+	Mat dst_x, dst_y;
+	Sobel(image, dst_x, image.depth(), 1, 0);
+	Sobel(image, dst_y, image.depth(), 0, 1);
+	convertScaleAbs(dst_x, dst_x);//结果为8U
+	convertScaleAbs(dst_y, dst_y);
+	dst_x.convertTo(dst_x, CV_32F);
+	dst_y.convertTo(dst_y, CV_32F);
+	Mat dst_mag = dst_x.clone();
+	magnitude(dst_x, dst_y, dst_mag);//要求为32F
+	for (int i = 0; i < dst_mag.rows; i++)
+		for (int j = 0; j < dst_mag.cols; j++)
+		{
+			sum +=dst_mag.at<float>(i, j);
+		}
+		return sum;
+}
+
+//************************************
+// 函数名称: SharpnessDct
+// 函数说明:  取DCT变换后的高频成分，再反变换得到的图像与原图的距离
+// 作    者: Juliwei
+// 完成日期: 2014/09/11
+// 返 回 值: double
+// 参    数:Mat image
+// 参    数:double belta小于belta*max_value的赋0
+//************************************
+double SharpnessDct(Mat image, double belta)
+{
+	Mat image1(image.size(), CV_32FC1);
+	Mat dst(image.size(), CV_32FC1);
+	image.convertTo(image1, CV_32FC1);
+	dct(image1, dst, CV_DXT_FORWARD);
+	double max_value = 0;
+	minMaxLoc(dst, NULL, &max_value);
+	for(int i = 0; i < dst.rows; i++)
+		for (int j = 0; j < dst.cols; j++)
+		{
+			if (dst.at<float>(i, j) < belta*max_value)
+			{
+				dst.at<float>(i, j) = 0.0;
+			}
+		}
+		dct(dst, dst, CV_DXT_INVERSE);
+		absdiff(dst, image1, image1);
+		pow(image1, 2, image1);
+		Scalar sharp = sum(image1);
+		double c = pow(sharp[0], 0.5);
+		return c / (double)(image1.rows * image1.cols);
+}
+
+//************************************
+// 函数名称: SharpnessMedianBlur
+// 函数说明:  中值滤波前后图像差的绝对值的平均值
+// 作    者: Juliwei
+// 完成日期: 2014/09/11
+// 返 回 值: double
+// 参    数:Mat image
+// 参    数:int ksize滤波核大小
+//************************************
+double SharpnessMedianBlur(Mat image, int ksize)
+{
+	Mat blur_image;
+	//blur(src, blur_image, Size(i, i));
+	//GaussianBlur(image, blur_image, Size(i, i), 0, 0);
+	medianBlur(image, blur_image, ksize);
+	//bilateralFilter(image, blur_image, i, 2*i, i/2);
+	absdiff(image, blur_image, blur_image);
+	Scalar scmean = mean(blur_image);
+	return scmean[0];
+}
 //************************************
 // 函数名称: computerLightQuality
 // 函数说明:  计算图片光照质量,分单通道、3通道
@@ -317,6 +401,23 @@ SymmetryQuality ComputerSymmetryQuality(Mat image)
 	return symmetryQuality;
 }
 
+//TODO:
+SharpnessQuality ComputerSharpnessQuality(Mat image)
+{
+	SharpnessQuality sharpnessQuality;
+	if (image.channels() == 3)
+	{
+		cvtColor(image, image, CV_BGR2GRAY);
+	}
+	if (image.channels() == 1)
+	{
+		sharpnessQuality.diff_sobel = SharpnessSobel(image, 2);
+		sharpnessQuality.diff_medianBlur = SharpnessMedianBlur(image, 3);
+		sharpnessQuality.diff_dct = SharpnessDct(image, 0.2);
+	}
+	return sharpnessQuality;
+}
+
 
 //************************************
 // 函数名称: ComputerQuality
@@ -332,6 +433,7 @@ Quality ComputerQuality(const Face& faceInfo)
 	quality.lightQuality = ComputerLightQuality(faceInfo.face);
 	quality.poseQuality = ComputerPoseQuality(faceInfo.eyePoints);
 	quality.symmetryQuality = ComputerSymmetryQuality(faceInfo.face);
+	quality.sharpnessQuality = ComputerSharpnessQuality(faceInfo.face);
 	return quality;
 }
 
@@ -346,7 +448,7 @@ Quality ComputerQuality(const Face& faceInfo)
 //************************************
 int QualityAsRowMatrix(const Quality& quality, Mat& matOfQuality)
 {
-	int num = 8;
+	int num = 11;
 	matOfQuality.create(1, num, CV_64F);
 	if (matOfQuality.empty())
 	{
@@ -360,6 +462,9 @@ int QualityAsRowMatrix(const Quality& quality, Mat& matOfQuality)
 	matOfQuality.at<double>(0, 5) = quality.symmetryQuality.gabor;
 	matOfQuality.at<double>(0, 6) = quality.poseQuality.eyes_angle;
 	matOfQuality.at<double>(0, 7) = quality.poseQuality.eyes_length;
+	matOfQuality.at<double>(0, 8) = quality.sharpnessQuality.diff_sobel;
+	matOfQuality.at<double>(0, 9) = quality.sharpnessQuality.diff_medianBlur;
+	matOfQuality.at<double>(0, 10) = quality.sharpnessQuality.diff_dct;
 	return 0;
 
 }

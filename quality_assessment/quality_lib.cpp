@@ -177,6 +177,51 @@ int NormalizeQuality(vector<Face>& vfaces)
 		vfaces[i].value = vfaces[i].quality.poseQuality.eyes_angle;
 		vfaces[i].quality.poseQuality.eyes_angle = temp;
 	}
+
+	//归一化sharpness_sobel
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.sharpnessQuality.diff_sobel;
+		vfaces[i].quality.sharpnessQuality.diff_sobel = temp;
+	}
+	NormalValue(vfaces, 0);
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.sharpnessQuality.diff_sobel;
+		vfaces[i].quality.sharpnessQuality.diff_sobel = temp;
+	}
+
+	//归一化sharpness_median
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.sharpnessQuality.diff_medianBlur;
+		vfaces[i].quality.sharpnessQuality.diff_medianBlur = temp;
+	}
+	NormalValue(vfaces, 0);
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.sharpnessQuality.diff_medianBlur;
+		vfaces[i].quality.sharpnessQuality.diff_medianBlur = temp;
+	}
+
+	//归一化sharpness_dct
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.sharpnessQuality.diff_dct;
+		vfaces[i].quality.sharpnessQuality.diff_dct = temp;
+	}
+	NormalValue(vfaces, 0);
+	for (size_t i=0; i<vfaces.size(); i++)
+	{
+		double temp = vfaces[i].value;
+		vfaces[i].value = vfaces[i].quality.sharpnessQuality.diff_dct;
+		vfaces[i].quality.sharpnessQuality.diff_dct = temp;
+	}
 	return 0;
 
 }

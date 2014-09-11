@@ -162,11 +162,11 @@ void Cface_logDlg::OnBnClickedButton1()
 	//testSymmetrical();
 	//GetCanny();
 	//GetFace();
-	//testSharpness();
+	testSharpness();
 	//testBrightness();
 	//testSQI();
 	//test_cas_light();
 	//test_cas_pose();
-	test_cas_symmetry();
+	//test_cas_symmetry();
 
 }
