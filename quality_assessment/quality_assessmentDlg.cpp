@@ -109,6 +109,7 @@ BOOL Cquality_assessmentDlg::OnInitDialog()
 	isSaveModel = 0;
 	maxFace = 100;	//允许读取的最多图片
 	ntrainPerson = 2;
+	nnumPerPerson = 10;
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -260,9 +261,9 @@ void Cquality_assessmentDlg::OnBnClickedButtonTrain()
 		int nnumOfQuality = 11;
 		Mat trainData = Mat::zeros(totalImage, nnumOfQuality, CV_64FC1);
 		Mat labelsData = Mat::zeros(totalImage, 1, CV_64FC1);
-		for (size_t i=0; i<vlastLogFace.size(); i++)
+		for (size_t i=0; i<ntrainPerson/*vlastLogFace.size()*/; i++)	//ntrainPerson个人用于训练
 		{
-			for (size_t j=0; j<ntrainPerson/*vlastLogFace[i].size()*/; j++)		//ntrainPerson个人用于训练
+			for (size_t j=0; j</*nnumPerPerson*/vlastLogFace[i].size(); j++)		//每个人nnumPerPerson张图用于训练
 			{
 				//将各个评估质量转化为行向量
 				Mat matOfQuality = trainData.row(num);
