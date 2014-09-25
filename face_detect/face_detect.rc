@@ -54,7 +54,7 @@ BEGIN
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
     "LANGUAGE 4, 2\r\n"
     "#pragma code_page(936)\r\n"
-    "#include ""res\\matching_score.rc2""  // 非 Microsoft Visual C++ 编辑的资源\r\n"
+    "#include ""res\\face_detect.rc2""  // 非 Microsoft Visual C++ 编辑的资源\r\n"
     "#include ""l.CHS\\afxres.rc""      // 标准组件\r\n"
     "#endif\r\n"
     "\0"
@@ -70,7 +70,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDR_MAINFRAME           ICON                    "res\\matching_score.ico"
+IDR_MAINFRAME           ICON                    "res\\face_detect.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -79,31 +79,27 @@ IDR_MAINFRAME           ICON                    "res\\matching_score.ico"
 
 IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "关于 matching_score"
+CAPTION "关于 face_detect"
 FONT 9, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
-    LTEXT           "matching_score，1.0 版",IDC_STATIC,42,14,114,8,SS_NOPREFIX
+    LTEXT           "face_detect，1.0 版",IDC_STATIC,42,14,114,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 2014",IDC_STATIC,42,26,114,8
     DEFPUSHBUTTON   "确定",IDOK,113,41,50,14,WS_GROUP
 END
 
-IDD_MATCHING_SCORE_DIALOG DIALOGEX 0, 0, 433, 243
+IDD_FACE_DETECT_DIALOG DIALOGEX 0, 0, 438, 255
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
-CAPTION "matching_score"
+CAPTION "face_detect"
 FONT 9, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "确定",IDOK,308,225,50,14
-    PUSHBUTTON      "取消",IDCANCEL,369,225,50,14
-    PUSHBUTTON      "训练",IDC_BUTTON_TRAIN,158,223,50,14
-    PUSHBUTTON      "预测",IDC_BUTTON_PREDICT,233,223,50,14
-    CONTROL         "",IDC_PICTURE_STD,"Static",SS_BLACKFRAME,22,17,118,146
-    CONTROL         "",IDC_PICTURE_TEST,"Static",SS_BLACKFRAME,158,20,111,146
-    LTEXT           "标准图",IDC_STATIC,66,176,22,8
-    LTEXT           "测试图",IDC_STATIC,198,176,22,8
-    LTEXT           "LBP距离：",IDC_STATIC,309,31,33,8
-    EDITTEXT        IDC_EDIT_LBP,307,45,40,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "确定",IDOK,292,241,50,14
+    PUSHBUTTON      "取消",IDCANCEL,357,241,50,14
+    PUSHBUTTON      "读入图片",IDC_BUTTON_LOAD,15,240,50,14
+    PUSHBUTTON      "人脸检测",IDC_BUTTON_DETECT,80,239,50,14
+    LTEXT           "STASM",IDC_STATIC,41,21,31,11
+    CONTROL         "",IDC_PICTURE_ASM,"Static",SS_BLACKFRAME,11,43,109,138
 END
 
 
@@ -132,9 +128,9 @@ BEGIN
             VALUE "CompanyName", "TODO: <公司名>"
             VALUE "FileDescription", "TODO: <文件说明>"
             VALUE "FileVersion", "1.0.0.1"
-            VALUE "InternalName", "matching_score.exe"
+            VALUE "InternalName", "face_detect.exe"
             VALUE "LegalCopyright", "TODO: (C) <公司名>。保留所有权利。"
-            VALUE "OriginalFilename", "matching_score.exe"
+            VALUE "OriginalFilename", "face_detect.exe"
             VALUE "ProductName", "TODO: <产品名>"
             VALUE "ProductVersion", "1.0.0.1"
         END
@@ -162,12 +158,12 @@ BEGIN
         BOTTOMMARGIN, 55
     END
 
-    IDD_MATCHING_SCORE_DIALOG, DIALOG
+    IDD_FACE_DETECT_DIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 426
+        RIGHTMARGIN, 431
         TOPMARGIN, 7
-        BOTTOMMARGIN, 236
+        BOTTOMMARGIN, 248
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -180,7 +176,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_ABOUTBOX            "关于 matching_score(&A)..."
+    IDS_ABOUTBOX            "关于 face_detect(&A)..."
 END
 
 #endif    // 中文(中华人民共和国) resources
@@ -201,7 +197,7 @@ END
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE 4, 2
 #pragma code_page(936)
-#include "res\matching_score.rc2"  // 非 Microsoft Visual C++ 编辑的资源
+#include "res\face_detect.rc2"  // 非 Microsoft Visual C++ 编辑的资源
 #include "l.CHS\afxres.rc"      // 标准组件
 #endif
 
