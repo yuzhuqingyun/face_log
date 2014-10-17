@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "face_detect", "face_detect\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FacePlusPlus", "FacePlusPlus\FacePlusPlus.vcproj", "{2D37256E-1E2C-43C3-864E-341815E1D736}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "probabilistic_quality", "probabilistic_quality\probabilistic_quality.vcproj", "{BCE044A9-AD70-460D-A002-CE3B3F09A39E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -37,6 +39,10 @@ Global
 		{2D37256E-1E2C-43C3-864E-341815E1D736}.Debug|Win32.Build.0 = Debug|Win32
 		{2D37256E-1E2C-43C3-864E-341815E1D736}.Release|Win32.ActiveCfg = Release|Win32
 		{2D37256E-1E2C-43C3-864E-341815E1D736}.Release|Win32.Build.0 = Release|Win32
+		{BCE044A9-AD70-460D-A002-CE3B3F09A39E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BCE044A9-AD70-460D-A002-CE3B3F09A39E}.Debug|Win32.Build.0 = Debug|Win32
+		{BCE044A9-AD70-460D-A002-CE3B3F09A39E}.Release|Win32.ActiveCfg = Release|Win32
+		{BCE044A9-AD70-460D-A002-CE3B3F09A39E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
