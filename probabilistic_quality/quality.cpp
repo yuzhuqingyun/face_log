@@ -47,11 +47,12 @@ Mat ExtractDCT(Mat src, int d)
 	Mat srcImg = src;
 	src.convertTo(srcImg, CV_64F);
 	dct(srcImg, dctMat, CV_DXT_FORWARD);
-	normalize(dctMat, dctMat, 255, 0, NORM_MINMAX);
+	//normalize(dctMat, dctMat, 255, 0, NORM_MINMAX);
 
-	imshow("image", src);
-	imshow("dct", dctMat);
-	waitKey(0);
+	//imshow("image", src);
+	//imshow("dct", dctMat);
+	//waitKey(0);
+
 	Rect rect(0, 0, d, d);
 	dctDst = dctMat(rect);
 	return MatAsRow(dctDst);

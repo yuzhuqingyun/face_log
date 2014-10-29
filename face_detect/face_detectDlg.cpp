@@ -176,9 +176,9 @@ void Cface_detectDlg::OnBnClickedButtonLoad()
 void Cface_detectDlg::OnBnClickedButtonDetect()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	//ASM定位
 	Mat asmFace = GetASMFace(image, 0);
-
-		//显示图像
+	//显示图像
 	IplImage frame = asmFace;
 	CDC *pDC = GetDlgItem(IDC_PICTURE_ASM)->GetDC();
 	HDC hDC= pDC->GetSafeHdc();
@@ -188,4 +188,17 @@ void Cface_detectDlg::OnBnClickedButtonDetect()
 	cimg.CopyOf(&frame);
 	cimg.DrawToHDC(hDC,&rect);
 	ReleaseDC(pDC);
+
+	//opencv人脸检测
+	Mat opencvFace = GetOpencvFace(image);
+	//显示图像
+	IplImage frame1 = opencvFace;
+	CDC *pDC1 = GetDlgItem(IDC_PICTURE_OPENCVFACE)->GetDC();
+	HDC hDC1= pDC1->GetSafeHdc();
+	CRect rect1;
+	GetDlgItem(IDC_PICTURE_OPENCVFACE)->GetClientRect(&rect1);
+	CvvImage cimg1;
+	cimg.CopyOf(&frame1);
+	cimg.DrawToHDC(hDC1,&rect1);
+	ReleaseDC(pDC1);
 }
